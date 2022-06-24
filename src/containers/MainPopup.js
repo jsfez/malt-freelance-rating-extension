@@ -7,7 +7,12 @@ import { Popup, PopupHeader } from '../components/Popup'
 import { Home } from './Home'
 import { Settings } from './Settings'
 import { seeds } from '../seeds/data'
-import { displayStore, queryData, seedStorage } from '../services/storage'
+import {
+  displayStore,
+  queryData,
+  seedStorage,
+  storeData,
+} from '../services/storage'
 import { isEmptyObject } from '../services/utils'
 
 function getViewComponent({ view, ...props }) {
@@ -31,6 +36,7 @@ export function MainPopup() {
       const newData = response?.searches?.length
         ? response
         : await seedStorage(seeds)
+      await storeData({ status: seeds.status })
 
       await displayStore()
       setData({ ...data, ...newData })

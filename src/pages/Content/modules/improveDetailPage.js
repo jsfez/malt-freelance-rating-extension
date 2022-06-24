@@ -1,16 +1,15 @@
+import ReactDOM from 'react-dom'
+import { x } from '@xstyled/styled-components'
 import { getProfile } from '../../../services/storage'
-import { createFieldDiv } from './components/fieldDiv'
-import { createStatusButton, handleClick } from './components/statusButton'
-import { createLinkedinButton } from './components/LinkedinButton'
-import { createFlexDiv } from './components/flexDiv'
-
-function getDiplomaField(educationYears) {
-  if (educationYears.length === 0) return
-
-  return educationYears.find((year) => isNaN(year))
-    ? createFieldDiv('Diplome', 'en cours')
-    : createFieldDiv('Diplomé en', Math.max(...educationYears))
-}
+import { addDiv } from '../../../services/utils'
+import { StatusButton } from '../../../components/StatusButton'
+import { LinkedinButton } from '../../../components/LinkedinButton'
+import { DiplomaField } from '../../../components/DiplomaField'
+import {
+  Skill,
+  SkillDescription,
+  SkillTitle,
+} from '../../../components/SkillDescription'
 
 function getFrenchLevel(level) {
   switch (level.toLowerCase()) {
@@ -42,8 +41,9 @@ function getSkillList() {
 }
 
 function getMissionsXP(missionSections) {
-  const techoListXP = {}
+  const skillsXpDuration = {}
 
+  // eslint-disable-next-line array-callback-return
   Array.from(missionSections).map((section) => {
     const duration = section.querySelector('[data-experience-date]').innerText
     const yearsMatch = duration.match(/(\d+) an?/)
@@ -57,15 +57,15 @@ function getMissionsXP(missionSections) {
     )
 
     technoTagDivs.forEach((technoTag) => {
-      if (techoListXP[technoTag]) {
-        techoListXP[technoTag] += monthsDuration
+      if (skillsXpDuration[technoTag]) {
+        skillsXpDuration[technoTag] += monthsDuration
         return
       }
-      techoListXP[technoTag] = monthsDuration
+      skillsXpDuration[technoTag] = monthsDuration
     })
   })
 
-  return techoListXP
+  return skillsXpDuration
 }
 
 function formatDuration(monthCount) {
@@ -79,23 +79,25 @@ function formatDuration(monthCount) {
     .join(' et ')
 }
 
-function getTechnoTags(technoList, missionSections) {
-  if (technoList.length === 0) return
+function SkillTags({ skills, missionSections }) {
+  if (skills.length === 0) return
 
   const missionsXP = getMissionsXP(missionSections)
   const skillList = getSkillList()
-  const technoFieldsDiv = createFlexDiv()
 
-  technoList.forEach((techno) => {
-    technoFieldsDiv.append(
-      createFieldDiv(
-        techno,
-        skillList[techno],
-        formatDuration(missionsXP[techno]),
-      ),
-    )
-  })
-  return technoFieldsDiv
+  return (
+    <x.div display="flex" flexWrap="wrap">
+      {skills.map((skill, index) => (
+        <Skill>
+          <SkillTitle>{skill}</SkillTitle>
+          <SkillDescription>{skillList[skill]}</SkillDescription>
+          <SkillDescription>
+            {formatDuration(missionsXP[skill])}
+          </SkillDescription>
+        </Skill>
+      ))}
+    </x.div>
+  )
 }
 
 function parsePage() {
@@ -136,23 +138,33 @@ export async function improveDetailPage(searchKey, skills = []) {
 
   const profile = await getProfile(profileId)
 
-  const button = createStatusButton(profile?.[searchKey])
-  button.addEventListener('click', (e) =>
-    handleClick(e, profileId, searchKey, { url: window.location.pathname }),
-  )
   h1Wrapper.style.alignItems = 'center'
-  h1Wrapper.append(button)
+  const statusContainer = addDiv(h1Wrapper)
 
-  const linkedinButton = createLinkedinButton(profileName, profileUrl, skills)
-  h1Wrapper.append(linkedinButton)
+  ReactDOM.render(
+    <x.div display="flex" alignItems="center">
+      <StatusButton
+        profile={profile}
+        searchKey={searchKey}
+        dataToStore={{ url: window.location.pathname, name: profileName }}
+      />
+      <LinkedinButton
+        profileName={profileName}
+        profileUrl={profileUrl}
+        skills={skills}
+      />
+    </x.div>,
+    statusContainer,
+  )
 
-  const infoDiv = createFlexDiv()
   headerDiv.childNodes[1].style.height = 'auto'
-  headerDiv.append(infoDiv)
+  const infoDiv = addDiv(headerDiv)
 
-  const diplomaField = getDiplomaField(educationYears)
-  if (diplomaField) infoDiv.append(diplomaField)
-
-  const technoTag = getTechnoTags(skills, missionSections)
-  if (technoTag) infoDiv.append(technoTag)
+  ReactDOM.render(
+    <x.div display="flex">
+      <DiplomaField educationYears={educationYears} />
+      <SkillTags skills={skills} missionSections={missionSections} />
+    </x.div>,
+    infoDiv,
+  )
 }

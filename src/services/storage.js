@@ -23,6 +23,13 @@ export async function getProfile(profileId) {
   return profile[profileKey]
 }
 
+export async function getDefaultStatus() {
+  const { status = [] } = getProfileKey('status')
+  return status.length === 0
+    ? { color: '#ccc', comment: 'new', text: ' ' }
+    : status[0]
+}
+
 export async function displayStore() {
   const storeContent = await queryData(null)
   console.log({ storeContent })
@@ -40,8 +47,10 @@ export async function updateProfileStatus(
   status,
   data = {},
 ) {
-  const newProfile = { ...data, id: profileId, [searchKey]: status }
-  await storeData({ [getProfileKey(profileId)]: newProfile })
+  const newProfile = {
+    [getProfileKey(profileId)]: { ...data, id: profileId, [searchKey]: status },
+  }
+  await storeData(newProfile)
   return newProfile
 }
 

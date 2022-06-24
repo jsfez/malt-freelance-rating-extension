@@ -5,7 +5,7 @@ import { improveDetailPage } from './modules/improveDetailPage'
 
 async function improveMaltPages(url) {
   const data = await queryData(null)
-  const { searches = [], currentSearchIndex = 0, status, ...profiles } = data
+  const { searches = [], currentSearchIndex = 0 } = data
   const search = searches[currentSearchIndex] || {}
   const searchKey = getSearchKey(search.id)
 

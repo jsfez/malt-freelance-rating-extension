@@ -26,12 +26,19 @@ export function chunkObject(object, size) {
 export const delay = (seconds) =>
   new Promise((resolve) => setTimeout(resolve, seconds * 1000))
 
-export function shallowCompare(obj1, obj2) {
+export function compareStatus(statusA, statusB) {
   return (
-    Object.keys(obj1).length === Object.keys(obj2).length &&
-    Object.keys(obj1).every((key) => obj1[key] === obj2[key])
+    statusA.text === statusB.text &&
+    statusA.comment === statusB.comment &&
+    statusA.color === statusB.color
   )
 }
 
 export const getSkillList = (search = {}) =>
   (search.skills || '').split(', ').filter((e) => e)
+
+export function addDiv(targetNode) {
+  const newDiv = document.createElement('div')
+  targetNode.append(newDiv)
+  return newDiv
+}

@@ -6,12 +6,12 @@ const todayDate = new Date().toLocaleDateString('fr-FR', {
 
 export const seeds = {
   status: [
-    { color: '#ccc', comment: 'Nouveau', text: ' ', rank: 10 },
-    { color: 'lightgreen', comment: 'Profile adapté', text: ' ', rank: 60 },
-    { color: 'lightgreen', comment: 'Message envoyé', text: '📬', rank: 50 },
-    { color: 'red', comment: 'Pas adapté', text: ' ', rank: 40 },
-    { color: 'red', comment: 'Profil Junior', text: '👶', rank: 30 },
-    { color: 'red', comment: 'Refus du freelance', text: '🙅‍♂️', rank: 20 },
+    { color: '#ccc', comment: 'new', text: ' ', rank: 10 },
+    { color: 'lightgreen', comment: 'Like', text: '🤍', rank: 60 },
+    { color: 'lightgreen', comment: 'Message send', text: '📬', rank: 50 },
+    { color: 'red', comment: 'Not fitting', text: '👎', rank: 40 },
+    { color: 'red', comment: 'Too junior', text: '👶', rank: 30 },
+    { color: 'red', comment: 'Freelance refusal', text: '🙅‍♂️', rank: 20 },
   ],
   currentSearchIndex: 0,
   searches: [
