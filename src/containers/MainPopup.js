@@ -28,15 +28,12 @@ export function MainPopup() {
   useEffect(() => {
     async function fetchSearches() {
       let response = await queryData(null)
-      if (
-        isEmptyObject(response) ||
-        !response.searches ||
-        response.searches.length === 0
-      ) {
-        response = await seedStorage(seeds)
-      }
+      const newData = response?.searches?.length
+        ? response
+        : await seedStorage(seeds)
+
       await displayStore()
-      setData({ ...data, ...response })
+      setData({ ...data, ...newData })
     }
     fetchSearches()
   }, [useEffectLimitator])

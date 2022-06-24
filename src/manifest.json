@@ -12,7 +12,7 @@
   "permissions": ["storage"],
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*", "<all_urls>"],
+      "matches": ["https://www.malt.fr/*"],
       "js": ["contentScript.bundle.js"]
     }
   ],
