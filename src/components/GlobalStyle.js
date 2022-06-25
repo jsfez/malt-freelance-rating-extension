@@ -8,7 +8,6 @@ export const GlobalStyle = createGlobalStyle`
       "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background:#f4f4f5;
   }
 
   [data-backdrop] {

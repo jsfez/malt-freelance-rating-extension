@@ -6,13 +6,19 @@ import { Button, SecondaryButton } from '../components/Button'
 import { List, ListItem } from '../components/List'
 import { useDialogState } from '../components/Dialog'
 import { ConfirmDialog } from '../components/ConfirmDialog'
-import { deleteSearch, displayStore, storeData } from '../services/storage'
+import {
+  deleteSearch,
+  displayStore,
+  storeData,
+  seedStorage,
+} from '../services/storage'
 import { TagList } from '../components/Tag'
 import { HuntingEditionDialog } from '../components/HuntingEditionDialog'
+import { myData } from '../seeds/myData'
 
 export function Settings({ data, setData }) {
   const { searches = [], status } = data
-  const searchIdRef = useRef(searches[0].id)
+  const searchIdRef = useRef(searches[0]?.id ?? null)
   const confirmDialog = useDialogState()
   const editDialog = useDialogState()
 
@@ -47,35 +53,45 @@ export function Settings({ data, setData }) {
 
       <Section p={0}>
         <List fontSize="sm">
-          {searches.map((search, index) => (
-            <ListItem key={index} secondary={index % 2} py={2}>
-              <x.div>{search.name}</x.div>
-              <TagList
-                list={search.skills
-                  .split(',')
-                  .map((skill) => skill.trim())
-                  .filter((e) => e)
-                  .sort((a, b) => a.localeCompare(b))}
-              />
-              <x.div display="flex" gap={2} justifyContent="flex-end">
-                {searches.length > 1 && (
-                  <Button onClick={() => openConfirmDialog(search.id)}>
-                    delete
-                  </Button>
-                )}
+          {searches.length === 0 ? (
+            <ListItem>No searches found.</ListItem>
+          ) : (
+            searches.map((search, index) => (
+              <ListItem key={index} secondary={index % 2} py={2}>
+                <x.div>{search.name}</x.div>
+                <TagList
+                  list={search.skills
+                    .split(',')
+                    .map((skill) => skill.trim())
+                    .filter((e) => e)
+                    .sort((a, b) => a.localeCompare(b))}
+                />
+                <x.div display="flex" gap={2} justifyContent="flex-end">
+                  {searches.length > 1 && (
+                    <Button onClick={() => openConfirmDialog(search.id)}>
+                      delete
+                    </Button>
+                  )}
 
-                <SecondaryButton onClick={() => openEditDialog(search.id)}>
-                  edit
-                </SecondaryButton>
-              </x.div>
-            </ListItem>
-          ))}
+                  <SecondaryButton onClick={() => openEditDialog(search.id)}>
+                    edit
+                  </SecondaryButton>
+                </x.div>
+              </ListItem>
+            ))
+          )}
         </List>
       </Section>
 
-      <SecondaryButton onClick={async () => displayStore()}>
-        Log store content
-      </SecondaryButton>
+      <x.div display="flex" flexDirection="column" gap={2} mt={2}>
+        <SecondaryButton onClick={async () => seedStorage(myData)}>
+          Seed personal data
+        </SecondaryButton>
+
+        <SecondaryButton onClick={async () => displayStore()}>
+          Log store content
+        </SecondaryButton>
+      </x.div>
 
       <ConfirmDialog
         dialog={confirmDialog}

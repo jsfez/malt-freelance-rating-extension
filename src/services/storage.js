@@ -82,8 +82,7 @@ export async function seedStorage(seeds) {
   const { searches = [], currentSearchIndex = 0, status, ...profiles } = seeds
   const profilesChunks = chunkObject(profiles, 100)
   const dataList = [
-    { status, currentSearchIndex },
-    { searches },
+    { status, currentSearchIndex, searches },
     ...Object.keys(profilesChunks).map((profilesChunk) => ({
       ...profilesChunks[profilesChunk],
     })),
@@ -106,8 +105,8 @@ export async function seedStorage(seeds) {
     console.log(storeContent)
 
     if (remainingTask !== 0) {
-      logRemainingTime(remainingTask, delaySeconds)
       await delay(delaySeconds)
+      logRemainingTime(remainingTask, delaySeconds)
     }
     i += 1
   }

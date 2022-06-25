@@ -7,12 +7,7 @@ import { Popup, PopupHeader } from '../components/Popup'
 import { Home } from './Home'
 import { Settings } from './Settings'
 import { seeds } from '../seeds/data'
-import {
-  displayStore,
-  queryData,
-  seedStorage,
-  storeData,
-} from '../services/storage'
+import { displayStore, queryData } from '../services/storage'
 import { isEmptyObject } from '../services/utils'
 
 function getViewComponent({ view, ...props }) {
@@ -27,14 +22,14 @@ function getViewComponent({ view, ...props }) {
 
 export function MainPopup() {
   const [view, setView] = useState()
-  const [data, setData] = useState()
+  const [data, setData] = useState(seeds)
   const useEffectLimitator = 'lorem'
 
   useEffect(() => {
     async function fetchSearches() {
       let data = await queryData(null)
       await displayStore()
-      setData(data)
+      if (!isEmptyObject(data)) setData(data)
     }
     fetchSearches()
   }, [useEffectLimitator])

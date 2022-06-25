@@ -17,7 +17,6 @@ async function improveMaltPages() {
     //   await displayStoreFreelancesButton()
 
     default:
-      console.log('malt freelance rating : no feature for this url')
   }
 }
 

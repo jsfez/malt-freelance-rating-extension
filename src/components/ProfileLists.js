@@ -15,7 +15,6 @@ function DisclosureButton({ children, state, ...props }) {
       w={1}
       justifyContent="space-between"
       px={2}
-      pb={1}
       color={{ _: 'black', hover: 'link-hover' }}
       fontSize="sm"
       {...props}

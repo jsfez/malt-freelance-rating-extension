@@ -7,12 +7,13 @@ chrome.runtime.onInstalled.addListener(async (details) => {
 })
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  if (changeInfo.url) {
+  if (changeInfo.url && /https:\/\/www.malt.fr.*/.test(changeInfo.url)) {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      chrome.tabs.sendMessage(tabs[0].id, {
-        message: 'url updated',
-        url: changeInfo.url,
-      })
+      chrome.tabs.sendMessage(
+        tabs[0].id,
+        { message: 'url updated', url: changeInfo.url },
+        (response) => console.log(response),
+      )
     })
   }
 })

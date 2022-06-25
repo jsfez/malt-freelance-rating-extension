@@ -37,13 +37,14 @@ function getNewSearchData(searches, newSearch) {
 
 const HuntingLists = (props) => (
   <x.div
-    mt={1}
-    ml={1}
-    pl={2}
-    borderLeft="1px dashed"
-    borderColor="gray-400"
+    mt={2}
+    pt={1}
+    px={2}
     overflowY="auto"
     flexGrow={1}
+    boxShadow="inner"
+    backgroundColor="gray-200"
+    borderRadius="md"
     {...props}
   />
 )

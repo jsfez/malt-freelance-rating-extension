@@ -18,7 +18,7 @@ export const Select = styled(AriakitSelect)`
   justify-content: space-between;
   gap: 1;
   white-space: nowrap;
-  background-color: white;
+  background-color: #f4f4f5;
   padding: 0 2;
   font-size: 14;
   line-height: 14px;
