@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "malt Freelance Rating",
+  "name": "malt freelance rating",
   "description": "Chrome extension to rate freelance on malt.fr",
   "version": "1.0",
   "icons": { "128": "icon-128.png" },
@@ -9,7 +9,7 @@
     "default_popup": "popup.html",
     "default_icon": "icon-34.png"
   },
-  "permissions": ["storage"],
+  "permissions": ["storage", "tabs"],
   "content_scripts": [
     {
       "matches": ["https://www.malt.fr/*"],

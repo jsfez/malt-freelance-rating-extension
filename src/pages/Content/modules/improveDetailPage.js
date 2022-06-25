@@ -1,15 +1,11 @@
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { x } from '@xstyled/styled-components'
-import { getProfile } from '../../../services/storage'
-import { addDiv } from '../../../services/utils'
-import { StatusButton } from '../../../components/StatusButton'
-import { LinkedinButton } from '../../../components/LinkedinButton'
-import { DiplomaField } from '../../../components/DiplomaField'
-import {
-  Skill,
-  SkillDescription,
-  SkillTitle,
-} from '../../../components/SkillDescription'
+import { getProfile, getSearch } from '../../../services/storage'
+import { addDiv, getSearchKey, getSearchSkills } from '../../../services/utils'
+import { StatusButton } from '../components/StatusButton'
+import { LinkedinButton } from '../components/LinkedinButton'
+import { DiplomaField } from '../components/DiplomaField'
+import { Skill, SkillDescription, SkillTitle } from '../components/SkillField'
 
 function getFrenchLevel(level) {
   switch (level.toLowerCase()) {
@@ -125,7 +121,7 @@ function parsePage() {
   }
 }
 
-export async function improveDetailPage(searchKey, skills = []) {
+export async function improveDetailPage() {
   const {
     profileId,
     profileName,
@@ -136,12 +132,16 @@ export async function improveDetailPage(searchKey, skills = []) {
     profileUrl,
   } = parsePage()
 
+  const search = await getSearch()
+  const searchKey = getSearchKey(search)
+  const skills = getSearchSkills(search)
   const profile = await getProfile(profileId)
 
   h1Wrapper.style.alignItems = 'center'
   const statusContainer = addDiv(h1Wrapper)
+  const statusContainerRoot = createRoot(statusContainer)
 
-  ReactDOM.render(
+  statusContainerRoot.render(
     <x.div display="flex" alignItems="center">
       <StatusButton
         profile={profile}
@@ -154,17 +154,17 @@ export async function improveDetailPage(searchKey, skills = []) {
         skills={skills}
       />
     </x.div>,
-    statusContainer,
   )
 
   headerDiv.childNodes[1].style.height = 'auto'
   const infoDiv = addDiv(headerDiv)
 
-  ReactDOM.render(
+  const infoDivRoot = createRoot(infoDiv)
+
+  infoDivRoot.render(
     <x.div display="flex">
       <DiplomaField educationYears={educationYears} />
       <SkillTags skills={skills} missionSections={missionSections} />
     </x.div>,
-    infoDiv,
   )
 }

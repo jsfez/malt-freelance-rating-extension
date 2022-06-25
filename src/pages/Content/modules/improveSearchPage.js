@@ -1,7 +1,7 @@
-import ReactDOM from 'react-dom'
-import { StatusButton } from '../../../components/StatusButton'
-import { getProfile } from '../../../services/storage'
-import { addDiv } from '../../../services/utils'
+import { createRoot } from 'react-dom/client'
+import { StatusButton } from '../components/StatusButton'
+import { getProfile, getSearch } from '../../../services/storage'
+import { addDiv, getSearchKey } from '../../../services/utils'
 
 function parseProfileCard(profileCard) {
   return {
@@ -17,7 +17,10 @@ function parseProfileCard(profileCard) {
   }
 }
 
-export async function diplayStatusOnSearchResults(searchKey) {
+export async function diplayStatusOnSearchResults() {
+  const search = await getSearch()
+  const searchKey = getSearchKey(search)
+
   Array.from(document.querySelectorAll('section.profile-card')).forEach(
     async (profileCard) => {
       const { targetDiv, profileId, profileUrl, profileName } =
@@ -27,14 +30,14 @@ export async function diplayStatusOnSearchResults(searchKey) {
       targetDiv.style.flexDirection = 'row'
       targetDiv.style.justifyContent = 'space-between'
       const container = addDiv(targetDiv)
+      const root = createRoot(container)
 
-      ReactDOM.render(
+      root.render(
         <StatusButton
           profile={profile}
           searchKey={searchKey}
           dataToStore={{ url: profileUrl, name: profileName }}
         />,
-        container,
       )
     },
   )

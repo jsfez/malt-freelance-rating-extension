@@ -1,4 +1,4 @@
-import { Skill, SkillDescription, SkillTitle } from './SkillDescription'
+import { Skill, SkillDescription, SkillTitle } from './SkillField'
 
 export function DiplomaField({ educationYears = [] }) {
   if (educationYears.length === 0) return null

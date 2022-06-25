@@ -32,14 +32,9 @@ export function MainPopup() {
 
   useEffect(() => {
     async function fetchSearches() {
-      let response = await queryData(null)
-      const newData = response?.searches?.length
-        ? response
-        : await seedStorage(seeds)
-      await storeData({ status: seeds.status })
-
+      let data = await queryData(null)
       await displayStore()
-      setData({ ...data, ...newData })
+      setData(data)
     }
     fetchSearches()
   }, [useEffectLimitator])

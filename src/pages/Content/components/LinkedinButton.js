@@ -31,13 +31,14 @@ export function LinkedinButton({ profileName, profileUrl, skills, ...props }) {
   return (
     <x.a
       href={`https://www.google.com/search?q=+${queryParams.join('+')}`}
-      color="secondary"
       mt="3px"
-      fontSize="md"
-      ml="4px"
+      fontSize="18px"
+      ml="10px"
+      color={{ _: '#3b82f6ff', hover: '#60a5faff' }}
+      target="_blank"
       {...props}
     >
-      Linkedin
+      Linkedin search
     </x.a>
   )
 }

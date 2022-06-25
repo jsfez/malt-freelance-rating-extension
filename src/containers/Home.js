@@ -9,7 +9,7 @@ import { HuntingEditionDialog } from '../components/HuntingEditionDialog'
 
 function formatProfiles(search, profiles) {
   if (!search) return []
-  const searchKey = getSearchKey(search.id)
+  const searchKey = getSearchKey(search)
 
   return Object.keys(profiles)
     .filter((key) => profiles[key][searchKey] && profiles[key].url)

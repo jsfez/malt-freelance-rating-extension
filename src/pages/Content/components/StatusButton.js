@@ -4,8 +4,8 @@ import {
   getDefaultStatus,
   queryData,
   updateProfileStatus,
-} from '../services/storage'
-import { compareStatus } from '../services/utils'
+} from '../../../services/storage'
+import { compareStatus } from '../../../services/utils'
 
 const defaultStatus = getDefaultStatus()
 
@@ -26,6 +26,7 @@ export function StatusButton({ profile, searchKey, dataToStore = {}, props }) {
   async function handleClick(event) {
     event.preventDefault()
     event.stopPropagation()
+
     const nextStatus = await getNextStatus(status)
     await updateProfileStatus(profile.id, searchKey, nextStatus, {
       ...profile,

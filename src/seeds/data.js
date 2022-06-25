@@ -7,7 +7,7 @@ const todayDate = new Date().toLocaleDateString('fr-FR', {
 export const seeds = {
   status: [
     { color: '#ccc', comment: 'new', text: ' ', rank: 10 },
-    { color: 'lightgreen', comment: 'Like', text: '🤍', rank: 60 },
+    { color: 'lightgreen', comment: 'Like', text: '💛', rank: 60 },
     { color: 'lightgreen', comment: 'Message send', text: '📬', rank: 50 },
     { color: 'red', comment: 'Not fitting', text: '👎', rank: 40 },
     { color: 'red', comment: 'Too junior', text: '👶', rank: 30 },

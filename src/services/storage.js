@@ -23,6 +23,14 @@ export async function getProfile(profileId) {
   return profile[profileKey]
 }
 
+export async function getSearch() {
+  const { searches = [], currentSearchIndex = 0 } = await queryData([
+    'searches',
+    'currentSearchIndex',
+  ])
+  return searches[currentSearchIndex] || {}
+}
+
 export async function getDefaultStatus() {
   const { status = [] } = getProfileKey('status')
   return status.length === 0
@@ -112,7 +120,7 @@ function trimSearchFromProfiles(profiles, searchId) {
 
   const newProfiles = Object.keys(profiles).reduce((res, key) => {
     const profile = { ...profiles[key] }
-    delete profile[getSearchKey(searchId)]
+    delete profile[getSearchKey({ id: searchId })]
 
     if (!Object.keys(profile).join('-').includes('search')) {
       removedProfilesKeys.push(key)

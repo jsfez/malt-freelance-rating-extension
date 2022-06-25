@@ -1,37 +1,33 @@
-import { queryData } from '../../services/storage'
-import { getSearchKey, getSkillList } from '../../services/utils'
 import { diplayStatusOnSearchResults } from './modules/improveSearchPage'
 import { improveDetailPage } from './modules/improveDetailPage'
 
-async function improveMaltPages(url) {
-  const data = await queryData(null)
-  const { searches = [], currentSearchIndex = 0 } = data
-  const search = searches[currentSearchIndex] || {}
-  const searchKey = getSearchKey(search.id)
+async function improveMaltPages() {
+  const url = window.location.href
+  switch (true) {
+    case /https:\/\/www.malt.fr\/s\?.*/.test(url):
+      console.log('malt freelance rating: improve search page')
+      return diplayStatusOnSearchResults()
 
-  if (url.match(/https:\/\/www.malt.fr\/s\?/)) {
-    console.log('malt Freelance Rating: improve search page')
-    await diplayStatusOnSearchResults(searchKey)
-    return
+    case /https:\/\/www.malt.fr\/profile.*/.test(url):
+      console.log('malt freelance rating: improve profile page')
+      return improveDetailPage()
+
+    // case /https:\/\/www.malt.fr\/messages.*/.test(url):
+    //   console.log('malt freelance rating: improve messages page')
+    //   await displayStoreFreelancesButton()
+
+    default:
+      console.log('malt freelance rating : no feature for this url')
   }
-
-  if (url.match(/https:\/\/www.malt.fr\/profile/)) {
-    console.log('malt Freelance Rating: improve profile page')
-    await improveDetailPage(searchKey, getSkillList(search))
-    return
-  }
-
-  // if (url.match(/https:\/\/www.malt.fr\/messages/)) {
-  //   console.log('malt Freelance Rating: improve messages page')
-  //   await displayStoreFreelancesButton()
-  //   return
-  // }
-
-  console.log('malt Freelance Rating : no matching loaded')
 }
 
 async function main() {
-  await improveMaltPages(window.location.href)
+  await improveMaltPages()
 }
+
+chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
+  if (request.message === 'url updated') await improveMaltPages()
+  return sendResponse('message received')
+})
 
 main()

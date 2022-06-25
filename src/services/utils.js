@@ -6,7 +6,7 @@ export function getTodayDate() {
   })
 }
 
-export const getSearchKey = (searchId) => (searchId ? `search-${searchId}` : '')
+export const getSearchKey = (search) => (search ? `search-${search.id}` : '')
 
 export const getProfileKey = (profileId) =>
   profileId ? `profile-${profileId}` : ''
@@ -34,7 +34,7 @@ export function compareStatus(statusA, statusB) {
   )
 }
 
-export const getSkillList = (search = {}) =>
+export const getSearchSkills = (search = {}) =>
   (search.skills || '').split(', ').filter((e) => e)
 
 export function addDiv(targetNode) {
