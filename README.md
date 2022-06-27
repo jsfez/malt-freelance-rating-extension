@@ -12,3 +12,7 @@ Chrome extension to help recruiting process on [Malt.fr](www.malt.fr) website.
 </ul>
 
 ---
+
+
+https://user-images.githubusercontent.com/15954562/175993009-d7bdc3d7-43a5-4b34-890c-6ad22198d4d0.mp4
+
