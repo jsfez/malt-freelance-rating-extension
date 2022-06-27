@@ -23,7 +23,10 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
         tabs[0].id,
         { message: 'url updated', url },
         (response) =>
-          console.log('MFR - response from content script : ' + response),
+          console.log(
+            'malt Freelance Rating - response from content script : ' +
+              response,
+          ),
       )
     },
   )

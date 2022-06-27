@@ -2,6 +2,11 @@ import { createRoot } from 'react-dom/client'
 
 export const TARGET_DOMAIN_REGEXP = /https:\/\/www.malt.fr.*/
 export const TARGET_DOMAIN_URL_PATTERN = 'https://www.malt.fr/*'
+export const DEFAULT_STATUS = {
+  color: '#ccc',
+  comment: 'new',
+  text: ' ',
+}
 
 export function getTodayDate() {
   return new Date().toLocaleDateString('fr-FR', {
@@ -40,7 +45,10 @@ export function compareStatus(statusA, statusB) {
 }
 
 export const getSearchSkills = (search = {}) =>
-  (search.skills || '').split(', ').filter((e) => e)
+  (search.skills || '')
+    .split(',')
+    .map((skill) => skill.trim())
+    .filter((e) => e)
 
 export function getOrCreateChildDiv(targetNode, id) {
   if (id) {

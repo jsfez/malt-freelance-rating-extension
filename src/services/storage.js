@@ -4,6 +4,7 @@ import {
   getProfileKey,
   getSearchKey,
   isEmptyObject,
+  sendMessageToTabs,
 } from './utils'
 
 function reachableStorage() {
@@ -19,8 +20,8 @@ export async function queryData(fields) {
 
 export async function getProfile(profileId) {
   const profileKey = getProfileKey(profileId)
-  const profile = await queryData()
-  return profile[profileKey]
+  const data = await queryData(profileKey)
+  return { ...data[profileKey], id: profileId }
 }
 
 export async function getSearch() {
@@ -29,13 +30,6 @@ export async function getSearch() {
     'currentSearchIndex',
   ])
   return searches[currentSearchIndex] || {}
-}
-
-export async function getDefaultStatus() {
-  const { status = [] } = getProfileKey('status')
-  return status.length === 0
-    ? { color: '#ccc', comment: 'new', text: ' ' }
-    : status[0]
 }
 
 export async function displayStore() {
@@ -89,7 +83,7 @@ export async function seedStorage(seeds) {
   ]
 
   if (!reachableStorage()) return
-  console.log('MFR : Clear and populate storage.')
+  console.log('malt Freelance Rating : Clear and populate storage.')
   logRemainingTime(dataList.length, delaySeconds)
 
   await chrome.storage.sync.clear()
@@ -102,7 +96,9 @@ export async function seedStorage(seeds) {
 
     const storeContent = await queryData(null)
     console.log(
-      `MFR : storeContent: ${Object.keys(storeContent).length} entries`,
+      `malt Freelance Rating : storeContent: ${
+        Object.keys(storeContent).length
+      } entries`,
     )
     console.log(storeContent)
 
@@ -134,28 +130,29 @@ function trimSearchFromProfiles(profiles, searchId) {
   return { removedProfilesKeys, newProfiles }
 }
 
-export async function deleteSearch(data, searchId) {
+export async function deleteSearch(data, searchIndex) {
   const { searches = [], currentSearchIndex = 0, status, ...profiles } = data
-
-  const updatedSearchIndex =
-    searchId !== currentSearchIndex
-      ? currentSearchIndex
-      : searches.find(({ id }) => id !== searchId).id
-  const newSearches = searches.filter(({ id }) => id !== searchId)
+  const searchId = searches[searchIndex].id
+  const newSearches = searches.filter((search, index) => index !== searchIndex)
   const { removedProfilesKeys, newProfiles } = trimSearchFromProfiles(
     profiles,
     searchId,
   )
 
+  const newSearchIndex =
+    searchIndex !== currentSearchIndex ? currentSearchIndex : 0
+
   await storeData({
     searches: newSearches,
-    currentSearchIndex: updatedSearchIndex,
+    currentSearchIndex: newSearchIndex,
     ...newProfiles,
   })
   await removeData(removedProfilesKeys)
+  if (newSearchIndex !== searchIndex) sendMessageToTabs('hunting list updated')
+
   return {
     searches: newSearches,
-    currentSearchIndex: updatedSearchIndex,
+    currentSearchIndex: newSearchIndex,
     status,
     ...newProfiles,
   }

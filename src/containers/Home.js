@@ -76,11 +76,12 @@ export function Home({ data, setData }) {
     sendMessageToTabs('hunting list updated')
   }
 
-  async function addList(newSearch) {
+  async function createNewList(newSearch) {
     const newData = getNewSearchData(searches, newSearch)
     await storeData({ ...data, ...newData })
     await displayStore()
     setData((prev) => ({ ...prev, ...newData }))
+    sendMessageToTabs('hunting list updated')
     dialog.toggle()
   }
 
@@ -104,7 +105,7 @@ export function Home({ data, setData }) {
         dialog={dialog}
         search={{}}
         status={status}
-        onSave={addList}
+        onSave={createNewList}
       />
     </>
   )

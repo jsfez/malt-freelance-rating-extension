@@ -14,33 +14,27 @@ import {
 } from '../services/storage'
 import { TagList } from '../components/Tag'
 import { HuntingEditionDialog } from '../components/HuntingEditionDialog'
-import { myData } from '../seeds/myData'
+import { seeds } from '../seeds/data'
+import { getSearchSkills } from '../services/utils'
 
 export function Settings({ data, setData }) {
   const { searches = [], status } = data
-  const searchIdRef = useRef(searches[0]?.id ?? null)
+  const searchIndexRef = useRef(0)
+  const search = searches[searchIndexRef.current]
+
   const confirmDialog = useDialogState()
   const editDialog = useDialogState()
 
-  function openConfirmDialog(searchId) {
-    searchIdRef.current = searchId
-    confirmDialog.show()
-  }
-
   async function handleConfirmDeletion() {
-    const newData = await deleteSearch(data, searchIdRef.current)
+    const newData = await deleteSearch(data, searchIndexRef.current)
+    searchIndexRef.current = 0
     setData(newData)
     confirmDialog.hide()
   }
 
-  async function openEditDialog(searchId) {
-    searchIdRef.current = searchId
-    editDialog.show()
-  }
-
   async function handleEditList(updatedSearch) {
     const newSearches = [...searches]
-    newSearches[searchIdRef.current] = updatedSearch
+    newSearches[searchIndexRef.current] = updatedSearch
     await storeData({ searches: newSearches })
     setData((prev) => ({ ...prev, searches: newSearches }))
     editDialog.hide()
@@ -59,20 +53,28 @@ export function Settings({ data, setData }) {
               <ListItem key={index} secondary={index % 2} py={2}>
                 <x.div>{search.name}</x.div>
                 <TagList
-                  list={search.skills
-                    .split(',')
-                    .map((skill) => skill.trim())
-                    .filter((e) => e)
-                    .sort((a, b) => a.localeCompare(b))}
+                  list={getSearchSkills(search).sort((a, b) =>
+                    a.localeCompare(b),
+                  )}
                 />
                 <x.div display="flex" gap={2} justifyContent="flex-end">
                   {searches.length > 1 && (
-                    <Button onClick={() => openConfirmDialog(search.id)}>
+                    <Button
+                      onClick={() => {
+                        searchIndexRef.current = index
+                        confirmDialog.show()
+                      }}
+                    >
                       delete
                     </Button>
                   )}
 
-                  <SecondaryButton onClick={() => openEditDialog(search.id)}>
+                  <SecondaryButton
+                    onClick={() => {
+                      searchIndexRef.current = index
+                      editDialog.show()
+                    }}
+                  >
                     edit
                   </SecondaryButton>
                 </x.div>
@@ -83,8 +85,8 @@ export function Settings({ data, setData }) {
       </Section>
 
       <x.div display="flex" flexDirection="column" gap={2} mt={2}>
-        <SecondaryButton onClick={async () => seedStorage(myData)}>
-          Seed personal data
+        <SecondaryButton onClick={async () => seedStorage(seeds)}>
+          Reset data storage
         </SecondaryButton>
 
         <SecondaryButton onClick={async () => displayStore()}>
@@ -94,17 +96,15 @@ export function Settings({ data, setData }) {
 
       <ConfirmDialog
         dialog={confirmDialog}
-        onConfirm={() => handleConfirmDeletion(searchIdRef.current)}
+        onConfirm={handleConfirmDeletion}
         confirmLabel="Delete"
       >
-        Confirm list{' '}
-        <x.span fontWeight="bold">{searches[searchIdRef.current]?.name}</x.span>{' '}
-        deletion ?
+        Confirm list <x.span fontWeight="bold">{search.name}</x.span> deletion ?
       </ConfirmDialog>
 
       <HuntingEditionDialog
         dialog={editDialog}
-        search={searches[searchIdRef.current]}
+        search={search}
         status={status}
         onSave={handleEditList}
       />

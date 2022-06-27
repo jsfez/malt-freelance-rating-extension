@@ -23,7 +23,6 @@ function getViewComponent({ view, ...props }) {
 export function MainPopup() {
   const [view, setView] = useState()
   const [data, setData] = useState(seeds)
-  const useEffectLimitator = 'lorem'
 
   useEffect(() => {
     async function fetchSearches() {
@@ -32,7 +31,7 @@ export function MainPopup() {
       if (!isEmptyObject(data)) setData(data)
     }
     fetchSearches()
-  }, [useEffectLimitator])
+  }, [])
 
   return (
     <Popup>

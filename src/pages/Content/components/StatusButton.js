@@ -1,33 +1,32 @@
 import { useState } from 'react'
 import { x } from '@xstyled/styled-components'
-import {
-  getDefaultStatus,
-  queryData,
-  updateProfileStatus,
-} from '../../../services/storage'
-import { compareStatus } from '../../../services/utils'
+import { queryData, updateProfileStatus } from '../../../services/storage'
+import { compareStatus, DEFAULT_STATUS } from '../../../services/utils'
 
-const defaultStatus = getDefaultStatus()
-
-async function getNextStatus(currentStatus) {
-  const { status: statusList = [] } = await queryData('status')
-  if (statusList.length === 0) return defaultStatus
-  if (!currentStatus) return statusList[1]
+function getNextStatusIndex(statusList = [], currentStatus) {
+  if (!currentStatus) return 1
   const index = statusList.findIndex((status) =>
     compareStatus(status, currentStatus),
   )
-  const newStatus = statusList[(index + 1) % statusList.length]
-  return newStatus
+  return (index + 1) % statusList.length
+}
+
+async function getNextStatus(currentStatus) {
+  const { status: statusList = [] } = await queryData('status')
+  if (statusList.length === 0) return DEFAULT_STATUS
+  const nextStatusIndex = getNextStatusIndex(statusList, currentStatus)
+  return statusList[nextStatusIndex]
 }
 
 export function StatusButton({ profile, searchKey, dataToStore = {}, props }) {
-  const [status, setStatus] = useState(profile?.[searchKey] || defaultStatus)
+  const [status, setStatus] = useState(profile[searchKey] || DEFAULT_STATUS)
 
   async function handleClick(event) {
     event.preventDefault()
     event.stopPropagation()
 
     const nextStatus = await getNextStatus(status)
+
     await updateProfileStatus(profile.id, searchKey, nextStatus, {
       ...profile,
       ...dataToStore,

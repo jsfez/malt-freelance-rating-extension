@@ -5,15 +5,15 @@ async function improveMaltPages() {
   const url = window.location.href
   switch (true) {
     case /https:\/\/www.malt.fr\/s\?.*/.test(url):
-      console.log('MFR : improve search results')
+      console.log('malt Freelance Rating : improve search results')
       return diplayStatusOnSearchResults()
 
     case /https:\/\/www.malt.fr\/profile.*/.test(url):
-      console.log('MFR : improve profile page')
+      console.log('malt Freelance Rating : improve profile page')
       return improveDetailPage()
 
     // case /https:\/\/www.malt.fr\/messages.*/.test(url):
-    //   console.log('MFR : improve messages page')
+    //   console.log('malt Freelance Rating : improve messages page')
     //   await displayStoreFreelancesButton()
 
     default:
