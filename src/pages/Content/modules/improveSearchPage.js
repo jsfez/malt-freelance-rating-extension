@@ -1,7 +1,6 @@
-import { createRoot } from 'react-dom/client'
 import { StatusButton } from '../components/StatusButton'
 import { getProfile, getSearch } from '../../../services/storage'
-import { addDiv, getSearchKey } from '../../../services/utils'
+import { getSearchKey, renderReactNode } from '../../../services/utils'
 
 function parseProfileCard(profileCard) {
   return {
@@ -21,7 +20,7 @@ export async function diplayStatusOnSearchResults() {
   const search = await getSearch()
   const searchKey = getSearchKey(search)
 
-  Array.from(document.querySelectorAll('section.profile-card')).forEach(
+  await Array.from(document.querySelectorAll('section.profile-card')).forEach(
     async (profileCard) => {
       const { targetDiv, profileId, profileUrl, profileName } =
         parseProfileCard(profileCard)
@@ -29,10 +28,10 @@ export async function diplayStatusOnSearchResults() {
 
       targetDiv.style.flexDirection = 'row'
       targetDiv.style.justifyContent = 'space-between'
-      const container = addDiv(targetDiv)
-      const root = createRoot(container)
 
-      root.render(
+      renderReactNode(
+        targetDiv,
+        `status-button-container-${profileId}`,
         <StatusButton
           profile={profile}
           searchKey={searchKey}

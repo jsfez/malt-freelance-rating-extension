@@ -4,7 +4,11 @@ import { useDialogState } from '../components/Dialog'
 import { ProfileLists } from '../components/ProfileLists'
 import { Section } from '../components/Section'
 import { HuntingSelect, useSelectState } from '../components/HuntingSelect'
-import { getSearchKey, getTodayDate } from '../services/utils'
+import {
+  getSearchKey,
+  getTodayDate,
+  sendMessageToTabs,
+} from '../services/utils'
 import { HuntingEditionDialog } from '../components/HuntingEditionDialog'
 
 function formatProfiles(search, profiles) {
@@ -65,10 +69,11 @@ export function Home({ data, setData }) {
 
   async function onSelectChange(huntingName) {
     const index = searches.findIndex((search) => search.name === huntingName)
-    if (index !== -1) {
-      storeData({ currentSearchIndex: index })
-      setData((prev) => ({ ...prev, currentSearchIndex: index }))
-    }
+    if (index === -1) return
+
+    storeData({ currentSearchIndex: index })
+    setData((prev) => ({ ...prev, currentSearchIndex: index }))
+    sendMessageToTabs('hunting list updated')
   }
 
   async function addList(newSearch) {

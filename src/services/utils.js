@@ -1,3 +1,8 @@
+import { createRoot } from 'react-dom/client'
+
+export const TARGET_DOMAIN_REGEXP = /https:\/\/www.malt.fr.*/
+export const TARGET_DOMAIN_URL_PATTERN = 'https://www.malt.fr/*'
+
 export function getTodayDate() {
   return new Date().toLocaleDateString('fr-FR', {
     year: 'numeric',
@@ -37,8 +42,33 @@ export function compareStatus(statusA, statusB) {
 export const getSearchSkills = (search = {}) =>
   (search.skills || '').split(', ').filter((e) => e)
 
-export function addDiv(targetNode) {
-  const newDiv = document.createElement('div')
-  targetNode.append(newDiv)
-  return newDiv
+export function getOrCreateChildDiv(targetNode, id) {
+  if (id) {
+    const child = targetNode.querySelector(`#${id}`)
+    if (child) return child
+  }
+
+  const div = document.createElement('div')
+  if (id) div.id = id
+  targetNode.append(div)
+  return div
+}
+
+export function renderReactNode(container, divId, reactNode) {
+  const targetDiv = getOrCreateChildDiv(container, divId)
+  const root = createRoot(targetDiv)
+  root.render(reactNode)
+}
+
+export function sendMessageToTabs(
+  message,
+  urlPattern = TARGET_DOMAIN_URL_PATTERN,
+) {
+  chrome.tabs.query({ url: TARGET_DOMAIN_URL_PATTERN }, (tabs) => {
+    tabs.forEach((tab) => {
+      chrome.tabs.sendMessage(tab.id, { message }, (response) =>
+        console.log('response from page : ' + response),
+      )
+    })
+  })
 }

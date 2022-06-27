@@ -4,7 +4,7 @@ import { GlobalStyle } from '../../components/GlobalStyle'
 import { theme } from '../../components/Theme'
 import { MainPopup } from '../../containers/MainPopup'
 
-const Popup = () => {
+export const App = () => {
   return (
     <>
       <GlobalStyle />
@@ -14,5 +14,3 @@ const Popup = () => {
     </>
   )
 }
-
-export default Popup

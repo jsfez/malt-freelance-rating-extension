@@ -1,7 +1,10 @@
-import { createRoot } from 'react-dom/client'
 import { x } from '@xstyled/styled-components'
 import { getProfile, getSearch } from '../../../services/storage'
-import { addDiv, getSearchKey, getSearchSkills } from '../../../services/utils'
+import {
+  getSearchKey,
+  getSearchSkills,
+  renderReactNode,
+} from '../../../services/utils'
 import { StatusButton } from '../components/StatusButton'
 import { LinkedinButton } from '../components/LinkedinButton'
 import { DiplomaField } from '../components/DiplomaField'
@@ -138,10 +141,10 @@ export async function improveDetailPage() {
   const profile = await getProfile(profileId)
 
   h1Wrapper.style.alignItems = 'center'
-  const statusContainer = addDiv(h1Wrapper)
-  const statusContainerRoot = createRoot(statusContainer)
 
-  statusContainerRoot.render(
+  renderReactNode(
+    h1Wrapper,
+    'profile-status',
     <x.div display="flex" alignItems="center">
       <StatusButton
         profile={profile}
@@ -157,11 +160,10 @@ export async function improveDetailPage() {
   )
 
   headerDiv.childNodes[1].style.height = 'auto'
-  const infoDiv = addDiv(headerDiv)
 
-  const infoDivRoot = createRoot(infoDiv)
-
-  infoDivRoot.render(
+  renderReactNode(
+    headerDiv,
+    'skills',
     <x.div display="flex">
       <DiplomaField educationYears={educationYears} />
       <SkillTags skills={skills} missionSections={missionSections} />

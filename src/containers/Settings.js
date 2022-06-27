@@ -39,7 +39,6 @@ export function Settings({ data, setData }) {
   }
 
   async function handleEditList(updatedSearch) {
-    console.log('handleEditList')
     const newSearches = [...searches]
     newSearches[searchIdRef.current] = updatedSearch
     await storeData({ searches: newSearches })

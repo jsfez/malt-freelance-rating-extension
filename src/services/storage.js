@@ -89,7 +89,7 @@ export async function seedStorage(seeds) {
   ]
 
   if (!reachableStorage()) return
-  console.log('Clear and populate storage.')
+  console.log('MFR : Clear and populate storage.')
   logRemainingTime(dataList.length, delaySeconds)
 
   await chrome.storage.sync.clear()
@@ -101,7 +101,9 @@ export async function seedStorage(seeds) {
     await displayStore()
 
     const storeContent = await queryData(null)
-    console.log(`storeContent: ${Object.keys(storeContent).length} entries`)
+    console.log(
+      `MFR : storeContent: ${Object.keys(storeContent).length} entries`,
+    )
     console.log(storeContent)
 
     if (remainingTask !== 0) {
