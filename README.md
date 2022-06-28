@@ -31,11 +31,11 @@ https://user-images.githubusercontent.com/15954562/175993009-d7bdc3d7-43a5-4b34-
 2. Status button : get visual on recruiting status. Click to add freelance in your list or update recruiting status
 3. Linkedin button to cross-compare profile data
 
-## Extention screenshots
+### Extension screenshots
 <p float="left">
-  <img width="200" alt="popup" src="https://user-images.githubusercontent.com/15954562/176177912-bfae8c98-fe10-40cb-b39c-051d0cdca3ae.png">&nbsp;&nbsp;
-  <img width="200" alt="popup-open-select" src="https://user-images.githubusercontent.com/15954562/176178660-88fc566d-ee73-4a8a-9d68-2a38a56dd78f.png">&nbsp;&nbsp;
-  <img width="200" alt="popup-settings" src="https://user-images.githubusercontent.com/15954562/176178383-2174d004-979b-42eb-b9de-cf77d7968d1e.png">&nbsp;&nbsp;
+  <img width="250" alt="popup" src="https://user-images.githubusercontent.com/15954562/176177912-bfae8c98-fe10-40cb-b39c-051d0cdca3ae.png">&nbsp;&nbsp;
+  <img width="250" alt="popup-open-select" src="https://user-images.githubusercontent.com/15954562/176178660-88fc566d-ee73-4a8a-9d68-2a38a56dd78f.png">&nbsp;&nbsp;
+  <img width="250" alt="popup-settings" src="https://user-images.githubusercontent.com/15954562/176178383-2174d004-979b-42eb-b9de-cf77d7968d1e.png">&nbsp;&nbsp;
 </p>
 
 ## Technical note and greeting
