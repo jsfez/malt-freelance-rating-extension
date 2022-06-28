@@ -1,4 +1,5 @@
-import { x } from '@xstyled/styled-components'
+import styled, { x } from '@xstyled/styled-components'
+import { IoSearchOutline } from 'react-icons/io5'
 
 const isAliasName = (profileName) => profileName.match(/\.$/) !== null
 
@@ -24,21 +25,45 @@ function getNameParts(profileName, profileUrl) {
   return [firstname, surname].filter((e) => e).map((str) => capitalize(str))
 }
 
+const Link = styled.a`
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+`
+
+const Button = styled.button`
+  font-size: 16px;
+  color: #014554;
+  padding: 3px 6px;
+  border: 0;
+  border-radius: 6px;
+  align-items: center;
+  display: flex;
+  gap: 5px;
+  background-color: #ecf3f4;
+
+  &:hover {
+    background-color: #ccc;
+    text-decoration: none;
+  }
+`
+
 export function LinkedinButton({ profileName, profileUrl, skills, ...props }) {
   const nameParts = getNameParts(profileName, profileUrl)
   const queryParams = ['site%3Alinkedin.com', ...nameParts, ...skills]
 
   return (
-    <x.a
+    <Link
       href={`https://www.google.com/search?q=+${queryParams.join('+')}`}
-      mt="3px"
-      fontSize="18px"
-      ml="10px"
-      color={{ _: '#3b82f6ff', hover: '#60a5faff' }}
       target="_blank"
       {...props}
     >
-      Linkedin search
-    </x.a>
+      <Button>
+        Linkedin
+        <x.span as={IoSearchOutline} />
+      </Button>
+    </Link>
   )
 }

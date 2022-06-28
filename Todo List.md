@@ -5,5 +5,6 @@ Todo List
 - [x] Refresh status button when new list is selected
 - [x] Refresh status button when new list is created
 - [x] Store Seed when plugin is installed
-- [] Write a readme
+- [x] Rework components with plugin design
+- [x] Write a readme
 - [] Create page for Chrome Store

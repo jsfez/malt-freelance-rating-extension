@@ -84,19 +84,13 @@ function SkillTags({ skills, missionSections }) {
   const missionsXP = getMissionsXP(missionSections)
   const skillList = getSkillList()
 
-  return (
-    <x.div display="flex" flexWrap="wrap">
-      {skills.map((skill, index) => (
-        <Skill>
-          <SkillTitle>{skill}</SkillTitle>
-          <SkillDescription>{skillList[skill]}</SkillDescription>
-          <SkillDescription>
-            {formatDuration(missionsXP[skill])}
-          </SkillDescription>
-        </Skill>
-      ))}
-    </x.div>
-  )
+  return skills.map((skill, index) => (
+    <Skill>
+      <SkillTitle>{skill}</SkillTitle>
+      <SkillDescription>{skillList[skill]}</SkillDescription>
+      <SkillDescription>{formatDuration(missionsXP[skill])}</SkillDescription>
+    </Skill>
+  ))
 }
 
 function parsePage() {
@@ -145,7 +139,7 @@ export async function improveDetailPage() {
   renderReactNode(
     h1Wrapper,
     'profile-status',
-    <x.div display="flex" alignItems="center">
+    <x.div display="flex" alignItems="center" gap="12px">
       <StatusButton
         profile={profile}
         searchKey={searchKey}
@@ -164,7 +158,7 @@ export async function improveDetailPage() {
   renderReactNode(
     headerDiv,
     'skills',
-    <x.div display="flex">
+    <x.div display="flex" pt="16px" gap="32px">
       <DiplomaField educationYears={educationYears} />
       <SkillTags skills={skills} missionSections={missionSections} />
     </x.div>,
