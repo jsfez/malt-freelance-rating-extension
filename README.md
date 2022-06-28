@@ -20,7 +20,8 @@ https://user-images.githubusercontent.com/15954562/175993009-d7bdc3d7-43a5-4b34-
 - Clicks on _Paul Michigan_ status button to set his status to "Freelance refusal".
 
 
-## Improved profile page
+## Screenshots
+### Improved profile page
 
 <img
   src="https://res.cloudinary.com/smooth/image/upload/v1656406748/malt-profile-rating-plugin/Capture_d_e%CC%81cran_2022-06-28_a%CC%80_10.57.16.png"
@@ -29,6 +30,13 @@ https://user-images.githubusercontent.com/15954562/175993009-d7bdc3d7-43a5-4b34-
 1. Smart overview on target skills
 2. Status button : get visual on recruiting status. Click to add freelance in your list or update recruiting status
 3. Linkedin button to cross-compare profile data
+
+## Extention screenshots
+<p float="left">
+  <img width="300" alt="popup" src="https://user-images.githubusercontent.com/15954562/176177912-bfae8c98-fe10-40cb-b39c-051d0cdca3ae.png">&nbsp;&nbsp;
+  <img width="300" alt="popup-open-select" src="https://user-images.githubusercontent.com/15954562/176178660-88fc566d-ee73-4a8a-9d68-2a38a56dd78f.png">&nbsp;&nbsp;
+  <img width="300" alt="popup-settings" src="https://user-images.githubusercontent.com/15954562/176178383-2174d004-979b-42eb-b9de-cf77d7968d1e.png">&nbsp;&nbsp;
+</p>
 
 ## Technical note and greeting
 
